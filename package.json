@@ -1,5 +1,4 @@
 {
-  "name": "rn-lightbase",
   "version": "0.0.0",
   "private": true,
   "workspaces": [
@@ -13,13 +12,19 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "eslint-config-custom": "*",
-    "prettier": "latest",
-    "turbo": "latest"
+    "turbo": "latest",
+    "typescript": "^4.8.3"
   },
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=18.0.0"
   },
   "dependencies": {},
-  "packageManager": "yarn@1.22.19"
+  "packageManager": "yarn@1.22.19",
+  "prettier": {
+    "printWidth": 110,
+    "tabWidth": 2,
+    "singleQuote": false,
+    "trailingComma": "es5",
+    "arrowParens": "always"
+  }
 }
