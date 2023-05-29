@@ -1,0 +1,14 @@
+{
+  "name": "@lightbase/eslint-config-rn",
+  "version": "0.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "eslint": "^8.27.0",
+    "eslint-config-universe": "^11.2.0",
+    "prettier": "^2.7.1"
+  },
+  "eslintConfig": {
+    "extends": "."
+  }
+}
