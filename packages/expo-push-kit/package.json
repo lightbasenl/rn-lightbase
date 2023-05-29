@@ -1,0 +1,13 @@
+{
+  "name": "@lightbase/expo-push-kit",
+  "version": "0.6.0",
+  "description": "My new module",
+  "main": "src/index.ts",
+  "repository": "https://github.com/owinter86/expo-push-kit",
+  "bugs": {
+    "url": "https://github.com/owinter86/expo-push-kit/issues"
+  },
+  "author": "Oliver Winter <owinter86@gmail.com> (https://github.com/owinter86)",
+  "license": "MIT",
+  "homepage": "https://github.com/owinter86/expo-push-kit#readme"
+}
