@@ -14,13 +14,13 @@
     "build": "bob build",
     "release": "release-it"
   },
-  "repository": "https://github.com/lightbasenl/lightbase-rn-design-system",
+  "repository": "https://github.com/lightbasenl/rn-lightbase",
   "author": "Oliver Winter <owinter86@gmail.com> (https://github.com/owinter86)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lightbasenl/lightbase-rn-design-system/issues"
+    "url": "https://github.com/lightbasenl/rn-lightbase/issues"
   },
-  "homepage": "https://github.com/lightbasenl/lightbase-rn-design-system#readme",
+  "homepage": "https://github.com/lightbasenl/rn-lightbase#readme",
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"
   },
@@ -74,10 +74,7 @@
     ]
   },
   "release-it": {
-    "git": {
-      "commitMessage": "chore: release ${version}",
-      "tagName": "v${version}"
-    },
+    "git": false,
     "npm": {
       "publish": true
     },

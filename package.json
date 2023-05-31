@@ -5,11 +5,18 @@
     "apps/*",
     "packages/*"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/lightbasenl/rn-lightbase",
+  "author": "Oliver Winter <owinter86@gmail.com> (https://github.com/owinter86)",
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "release": "turbo run release"
   },
   "devDependencies": {
     "turbo": "latest",
