@@ -24,7 +24,8 @@ export type TextProps = RNTextProps & {
 
 export function Text({ variant, ...props }: TextProps) {
   const { variants, colors, defaults, typography } = useInternalTheme();
-  const variantType = variants.Text[variant ?? defaults.Text.variant];
+  const variantKey = (variant ?? defaults.Text.variant) as string | undefined;
+  const variantType = variantKey ? variants.Text[variantKey] : null;
   const combined = { ...variantType, ...props };
   const {
     family,
@@ -45,9 +46,9 @@ export function Text({ variant, ...props }: TextProps) {
   if (!size) {
     throw new Error("Font size has not been defined as a variant or prop");
   }
-
+  const defaultFamily = (defaults.Text.family ?? variants.Text[defaults.Text.variant]["family"]) as string;
   const fontSizes = createTextSize({
-    fontMetrics: typography.fonts[family ?? defaults.Text.family],
+    fontMetrics: typography.fonts[family ?? defaultFamily],
     ...typography.sizes[size],
   });
 
@@ -72,7 +73,7 @@ export function Text({ variant, ...props }: TextProps) {
           textAlign,
           color: customColor,
           flex,
-          fontWeight: weights[weight],
+          fontWeight: weights[weight ?? "regular"],
           fontStyle: italic ? "italic" : "normal",
           fontFamily: family as string,
         },

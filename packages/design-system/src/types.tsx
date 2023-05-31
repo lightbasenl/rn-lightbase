@@ -21,14 +21,15 @@ export type CreateLBConfig<
   TColors extends LightColors,
   TFontSizes extends GenericFontSizes,
   TSpacing extends SpacingConfig,
-  TRadius extends SpacingConfig
+  TRadius extends SpacingConfig,
+  TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>
 > = {
   typography: Typography<TMetrics, TFontSizes>;
-  variants: Variants<TMetrics, TColors, TFontSizes>;
+  variants: Variants<TMetrics, TColors, TFontSizes, TTextVariant>;
   colors: ThemeColors<TColors>;
   spacing: TSpacing;
   radius: TRadius;
-  defaults: any;
+  defaults: Defaults<TMetrics, TFontSizes, TColors, TSpacing, TTextVariant>;
 };
 
 export type GenericLBConfig = CreateLBConfig<
@@ -36,7 +37,8 @@ export type GenericLBConfig = CreateLBConfig<
   LightColors,
   GenericFontSizes,
   SpacingConfig,
-  SpacingConfig
+  SpacingConfig,
+  TextVariant<FontMetrics, GenericFontSizes, LightColors>
 >;
 
 export type FontVariant = keyof LBConfig["variants"]["Text"];
@@ -197,15 +199,57 @@ export type Typography<TMetrics extends FontMetrics, TFontSizes extends GenericF
 export type Variants<
   TMetrics extends FontMetrics,
   TColors extends LightColors,
-  TFontSizes extends GenericFontSizes
+  TFontSizes extends GenericFontSizes,
+  TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>
 > = {
-  Text: {
-    [name: string]: {
-      family: keyof TMetrics;
-      weight: FontWeights;
-      size: keyof TFontSizes;
-      color: CustomColor<TColors>;
-    };
-  };
+  Text: TTextVariant;
   Button: any;
+};
+
+export type Defaults<
+  TMetrics extends FontMetrics,
+  TFontSizes extends GenericFontSizes,
+  TColors extends LightColors,
+  TSpacing extends SpacingConfig,
+  TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>
+> = {
+  Text:
+    | {
+        variant: keyof TTextVariant;
+        family?: never;
+        weight?: never;
+        size?: never;
+        color?: never;
+      }
+    | {
+        variant?: never;
+        family: keyof TMetrics;
+        weight?: FontWeights;
+        size?: keyof TFontSizes;
+        color?: CustomColor<TColors>;
+      };
+  Button?: any;
+  Screen: {
+    backgroundColor?: keyof TColors;
+    paddingHorizontal?: keyof TSpacing;
+    paddingLeft?: keyof TSpacing;
+    paddingRight?: keyof TSpacing;
+    padding?: keyof TSpacing;
+    paddingVertical?: keyof TSpacing;
+    paddingBottom?: keyof TSpacing;
+    paddingTop?: keyof TSpacing;
+  };
+};
+
+export type TextVariant<
+  TMetrics extends FontMetrics,
+  TFontSizes extends GenericFontSizes,
+  TColors extends LightColors
+> = {
+  [variant: string]: {
+    family: keyof TMetrics;
+    weight: FontWeights;
+    size: keyof TFontSizes;
+    color: CustomColor<TColors>;
+  };
 };

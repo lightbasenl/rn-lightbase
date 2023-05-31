@@ -53,7 +53,10 @@ export const theme = createtheme({
     Button: {},
   },
   defaults: {
-    Text: { family: "Open Sans" },
+    Text: { family: "Montserrat" },
     Button: {},
+    Screen: {
+      paddingHorizontal: "12px",
+    },
   },
 });

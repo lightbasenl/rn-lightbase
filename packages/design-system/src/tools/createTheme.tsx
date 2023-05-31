@@ -1,12 +1,22 @@
-import type { CreateLBConfig, FontMetrics, GenericFontSizes, LightColors, SpacingConfig } from "../types";
+import type {
+  CreateLBConfig,
+  FontMetrics,
+  GenericFontSizes,
+  LightColors,
+  SpacingConfig,
+  TextVariant,
+} from "../types";
 
 export function createtheme<
   T extends LightColors,
   K extends FontMetrics,
   S extends GenericFontSizes,
   Spacing extends SpacingConfig,
-  Radius extends SpacingConfig
->(config: CreateLBConfig<K, T, S, Spacing, Radius>): CreateLBConfig<K, T, S, Spacing, Radius> {
+  Radius extends SpacingConfig,
+  TTextVariant extends TextVariant<K, S, T>
+>(
+  config: CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant>
+): CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant> {
   const themeColors = {
     light: config.colors.light,
     dark: { ...config.colors.light, ...config.colors.dark },
