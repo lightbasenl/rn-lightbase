@@ -1,5 +1,5 @@
 // This file is codegenerated as part of the link-assets expo config plugin
-export type FontWeights = {
+type FontWeightsArray = {
   Lato: [900, 700, 200, 800, 400, 300, 500, 600];
   Exo: [900, 700, 800, 200, 400, 300, 500, 600, 100];
   Inter: [700, 500, 400];
@@ -7,6 +7,9 @@ export type FontWeights = {
   Montserrat: [900, 700];
   "Neutra Text": [700, 500];
   "Open Sans": [700, 400, 600];
+};
+export type FontWeights = {
+  [K in keyof FontWeightsArray]: `${FontWeightsArray[K][number]}`;
 };
 export const fontConfig = {
   Lato: {

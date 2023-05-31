@@ -28,7 +28,7 @@ export default ({ config }: ConfigContext): ExpoConfig => {
     },
     plugins: [
       // ["expo-transparent-navigation", "dark-content"],
-      ["./plugins/link-assets.js", { folders: ["./assets/linked/"], debug: false }],
+      ["@lightbase/native-assets", { folders: ["./assets/linked/"] }],
     ],
   };
 };
