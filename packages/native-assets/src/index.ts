@@ -93,6 +93,17 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
         assets?.forEach(async (asset, index) => {
           const font = opentype.loadSync(asset);
 
+          if (font.tables.fvar) {
+            const postScriptName = font.names.postScriptName.en;
+            console.log(
+              chalk.red(
+                `✖ ${chalk.red.bold(
+                  postScriptName
+                )} variable fonts are currently not supported, please use a static font`
+              )
+            );
+            return;
+          }
           const postScriptName = font.names.postScriptName.en.replace(/-/g, "_").toLowerCase();
           const fontStyle = font.tables.post.italicAngle !== 0 ? "italic" : "normal";
           let fontWeight: number = font.tables.os2.usWeightClass;
@@ -190,7 +201,6 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
       );
 
       const typographyFileString = JSON.stringify(fontMetrics);
-      console.log("__FONT_WEIGHTS_STRING__", JSON.stringify(fontWeights));
 
       const formattedContent = prettier.format(
         `
