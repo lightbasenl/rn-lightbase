@@ -1,6 +1,6 @@
 // This file is codegenerated as part of the link-assets expo config plugin
 type FontWeightsArray = {
-  Lato: [900, 700, 200, 800, 400, 300, 500, 600];
+  Lato: [900, 700, 200, 800, 400, 300, 500, 600, 100];
   Exo: [900, 700, 800, 200, 400, 300, 500, 600, 100];
   Inter: [700, 500, 400];
   Kenteken: [400];

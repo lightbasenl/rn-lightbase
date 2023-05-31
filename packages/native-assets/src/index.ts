@@ -97,12 +97,17 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
           const fontStyle = font.tables.post.italicAngle !== 0 ? "italic" : "normal";
           let fontWeight: number = font.tables.os2.usWeightClass;
 
+          // @ts-expect-error preferredSubfamily exists
+
+          if (fontWeight === 300 && font.names.preferredSubfamily?.en.toLowerCase().includes("thin")) {
+            // some fonts have incorrect weights added and will crash android if repeated weights are added
+            fontWeight = 100;
+          }
+
           // font weight needs to be 100, 200, 300, 400, 500, 600, 700, 800, 900 so check the 250 weights to distiguish between 200 and 100
           if (fontWeight === 250) {
             // @ts-expect-error preferredSubfamily exists
-            fontWeight = ["thin", "hairline"].includes(font.names.preferredSubfamily?.en.toLowerCase())
-              ? 100
-              : 200;
+            fontWeight = font.names.preferredSubfamily?.en.toLowerCase().includes("extralight") ? 200 : 100;
           }
           // CHECK IF BAD FILE NAME IS PARSED CORRECTLY CHANGE A FONT NAME TO SOMETHING RANDOM
           xmlContent += `\n  <font app:fontStyle="${fontStyle}" app:fontWeight="${fontWeight}" app:font="@font/${postScriptName}" />`;
@@ -168,7 +173,7 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
             xmlContent += `\n</font-family>`;
             const projectRoot = config.modRequest.projectRoot;
             const filePath = await AndroidConfig.Paths.getResourceXMLPathAsync(projectRoot, {
-              name: `${postScriptName.split("_")[0]}`,
+              name: `font_${postScriptName.split("_")[0]}`,
               // @ts-ignore
               kind: "font",
             });
@@ -180,7 +185,8 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
       });
 
       importStrings = Object.entries(fontImports).map(
-        ([key, value]) => `ReactFontManager.getInstance().addCustomFont(this, "${key}", R.font.${value});`
+        ([key, value]) =>
+          `ReactFontManager.getInstance().addCustomFont(this, "${key}", R.font.font_${value});`
       );
 
       const typographyFileString = JSON.stringify(fontMetrics);
