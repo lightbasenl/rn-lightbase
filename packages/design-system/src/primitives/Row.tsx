@@ -4,6 +4,7 @@ import { ViewProps, ViewStyle } from "react-native";
 import { Box } from "./Box/Box";
 import { useInternalTheme } from "../hooks/useInternalTheme";
 import { getValidChildren } from "../tools/getValidChildren";
+import { useStyle } from "../tools/useStyle";
 import { Spacing } from "../types";
 
 export const alignHorizontalToFlexAlign = {
@@ -61,24 +62,31 @@ export function Row({
   wrap,
   separator,
 }: RowProps) {
-  const theme = useInternalTheme();
   const validChildren = getValidChildren(children);
 
-  const resolveToken = (value: Spacing) => {
+  const theme = useInternalTheme();
+
+  const spaceMap = (value: Spacing) => {
     if (typeof value === "object") {
-      if (typeof value.custom === "string") {
-        return value.custom;
-      }
-      if (value.custom == null) {
-        return undefined;
-      }
-      return value.custom;
+      return value.custom as number;
     }
-    return -1 * theme.spacing[(value as string)?.replace("-", "")];
+    if (typeof value === "string") {
+      if (theme.spacing[value] == null) {
+        throw new Error(`Spacing value: ${value} is not included in the current theme configuration`);
+      }
+      return theme.spacing[value];
+    }
+    return undefined;
   };
 
   const verticalSpace = verticalSpaceProp ?? space;
   const horizontalSpace = horizontalSpaceProp ?? space;
+
+  const style = useStyle(
+    () => ({ rowGap: spaceMap(verticalSpace), columnGap: spaceMap(horizontalSpace) }),
+    [verticalSpace, horizontalSpace]
+  );
+
   return (
     <Box
       flexDirection="row"
@@ -86,26 +94,18 @@ export function Row({
       justifyContent={alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined}
       flexWrap={wrap ? "wrap" : undefined}
       testID={testID}
-      style={{ width }}
+      width={width}
+      style={style}
       flex={flex}
-      marginRight={wrap && horizontalSpace ? { custom: resolveToken(horizontalSpace) } : undefined}
-      marginTop={wrap && verticalSpace ? { custom: resolveToken(verticalSpace) } : undefined}
     >
       {validChildren.map((child, index) => {
         const key = typeof child.key !== "undefined" ? child.key : index;
         const isLast = index + 1 === validChildren.length;
-        if (wrap) {
-          return (
-            <Box key={key + "wrapper"} paddingRight={horizontalSpace} paddingTop={verticalSpace}>
-              {child}
-            </Box>
-          );
-        }
+
         return (
           <Fragment key={key + "fragment"}>
             {child}
-            {!!space && !isLast && <Box paddingRight={space} />}
-            {!!separator && !isLast && <Box paddingRight={space}>{separator}</Box>}
+            {!!separator && !isLast && <Box>{separator}</Box>}
           </Fragment>
         );
       })}

@@ -1,7 +1,9 @@
 import React, { Fragment, isValidElement, ReactElement, ReactNode } from "react";
 
 import { Box } from "./Box/Box";
+import { useInternalTheme } from "../hooks/useInternalTheme";
 import { getValidChildren } from "../tools/getValidChildren";
+import { useStyle } from "../tools/useStyle";
 import { Spacing } from "../types";
 
 const alignHorizontalToFlexAlign = {
@@ -38,7 +40,24 @@ export function Stack({ children, alignHorizontal, alignVertical, separator, spa
   if (__DEV__ && separator && !isValidElement(separator)) {
     throw new Error(`Stack: The 'separator' prop must be a React element`);
   }
+  const theme = useInternalTheme();
+
+  const spaceMap = (value: Spacing) => {
+    if (typeof value === "object") {
+      return value.custom as number;
+    }
+    if (typeof value === "string") {
+      if (theme.spacing[value] == null) {
+        throw new Error(`Spacing value: ${value} is not included in the current theme configuration`);
+      }
+      return theme.spacing[value];
+    }
+    return undefined;
+  };
+
   const validChildren = getValidChildren(children);
+
+  const style = useStyle(() => ({ rowGap: spaceMap(space) }), [space]);
 
   const clones = validChildren.map((child, index) => {
     const key = typeof child.key !== "undefined" ? child.key : index;
@@ -47,11 +66,9 @@ export function Stack({ children, alignHorizontal, alignVertical, separator, spa
     return (
       <Fragment key={key + "fragment"}>
         {child}
-        {!!space && !isLast && <Box paddingBottom={space} />}
         {!!separator && !isLast && (
           <Box
             alignItems={alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined}
-            paddingBottom={space}
             width="100%"
           >
             {separator}
@@ -66,6 +83,7 @@ export function Stack({ children, alignHorizontal, alignVertical, separator, spa
       flex={flex}
       alignItems={alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined}
       justifyContent={alignVertical ? alignVerticalToFlexAlign[alignVertical] : undefined}
+      style={style}
     >
       {clones}
     </Box>

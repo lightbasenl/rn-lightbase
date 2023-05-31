@@ -1,4 +1,4 @@
-import { Stack, Text, ThemeProvider } from "@lightbase/rn-design-system";
+import { Box, Row, Stack, Text, ThemeProvider } from "@lightbase/rn-design-system";
 import { ScrollView } from "react-native";
 
 import { theme } from "./theme.config";
@@ -26,7 +26,26 @@ const fonts = [
 export const Main = () => {
   return (
     <ScrollView contentContainerStyle={{ paddingVertical: 40 }}>
-      <Stack space="12px">
+      <Stack space="20px" separator={<Box height={1} backgroundColor="primary" width="100%" />}>
+        <Row space="12px" wrap>
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+        </Row>
+
+        <Row space="12px">
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+          <Box backgroundColor="primary" width={100} height={30} />
+        </Row>
         <Stack space="5px">
           {fonts.map((item) => (
             <Text key={item} weight={item} size="28px" family="Exo">
