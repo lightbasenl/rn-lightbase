@@ -1,6 +1,6 @@
 {
   "name": "@lightbase/rn-design-system",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "test",
   "main": "lib/commonjs/index",
   "module": "lib/module/index",
@@ -12,7 +12,7 @@
     "typecheck": "tsc --noEmit",
     "lint": "eslint \"**/*.{js,ts,tsx}\"",
     "build": "bob build",
-    "release": "release-it"
+    "release": "bob build && release-it"
   },
   "repository": "https://github.com/lightbasenl/rn-lightbase",
   "author": "Oliver Winter <owinter86@gmail.com> (https://github.com/owinter86)",

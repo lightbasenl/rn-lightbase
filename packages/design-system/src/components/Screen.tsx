@@ -173,7 +173,7 @@ export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S
     const { children, ListHeaderComponent, ListFooterComponent, ...rest } = props;
     return (
       <ScreenContainer {...containerprops}>
-        <SectionListBox<T, S>
+        <SectionListBox
           ref={ref}
           flex={1}
           ListHeaderComponent={
