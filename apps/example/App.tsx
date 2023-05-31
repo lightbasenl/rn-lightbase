@@ -1,5 +1,5 @@
-import { Box, Row, Stack, Text, ThemeProvider } from "@lightbase/rn-design-system";
-import { ScrollView } from "react-native";
+import { AnimatedScrollViewBox, Box, Row, Stack, Text, ThemeProvider } from "@lightbase/rn-design-system";
+import Animated, { useAnimatedRef } from "react-native-reanimated";
 
 import { theme } from "./theme.config";
 
@@ -24,8 +24,10 @@ const fonts = [
 ] as const;
 
 export const Main = () => {
+  const aref = useAnimatedRef<Animated.ScrollView>();
+
   return (
-    <ScrollView contentContainerStyle={{ paddingVertical: 40 }}>
+    <AnimatedScrollViewBox ref={aref} hello={3} padding="12px">
       <Stack space="20px" separator={<Box height={1} backgroundColor="primary" width="100%" />}>
         <Row space="12px" wrap>
           <Box backgroundColor="primary" width={100} height={30} />
@@ -97,6 +99,6 @@ export const Main = () => {
           ))}
         </Stack>
       </Stack>
-    </ScrollView>
+    </AnimatedScrollViewBox>
   );
 };

@@ -16,10 +16,6 @@ type SectionListProps<T, S> = RemoveStyles<RNSectionListProps<T, S>> & {
 
 export type SectionListBoxProps<T, S> = ScrollableBoxProps & SectionListProps<T, S>;
 
-interface SectionComponentFunctionType {
-  <T, S>(props: SectionListBoxProps<T, S>, ref: ForwardedRef<SectionList<T, S>>): JSX.Element;
-}
-
 export const SectionListBox = forwardRef(function SectionListBox<T, S>(
   { style, contentContainerStyle, ...props }: SectionListBoxProps<T, S>,
   ref: ForwardedRef<SectionList<T, S>>
@@ -37,4 +33,4 @@ export const SectionListBox = forwardRef(function SectionListBox<T, S>(
       />
     </BackgroundContext.Provider>
   );
-}) as SectionComponentFunctionType;
+});

@@ -17,10 +17,6 @@ type FlatListProps<T> = RemoveStyles<RNFlatListProps<T>> & {
 
 export type AnimatedFlatListBoxProps<T> = ScrollableBoxProps & AnimateProps<FlatListProps<T>>;
 
-interface AnimatedFlatListComponentType {
-  <T>(props: AnimatedFlatListBoxProps<T>, ref: ForwardedRef<Animated.FlatList<T>>): JSX.Element;
-}
-
 export const AnimatedFlatListBox = forwardRef(function FlatListBox<T>(
   { style, contentContainerStyle, ...props }: AnimatedFlatListBoxProps<T>,
   ref: ForwardedRef<Animated.FlatList<T>>
@@ -38,4 +34,4 @@ export const AnimatedFlatListBox = forwardRef(function FlatListBox<T>(
       />
     </BackgroundContext.Provider>
   );
-}) as AnimatedFlatListComponentType;
+});
