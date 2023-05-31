@@ -41,8 +41,6 @@ export const mapMarginValue = (margins: MarginValues, spacingConfig: Record<stri
     const spaceValue = value?.replace("-", "") as SpaceKey;
     const spaceReturn = spacingConfig[spaceValue];
 
-    console.log(JSON.stringify({ spaceReturn, spaceValue, value, margins }, null, 2));
-
     if (typeof spaceReturn !== "number") {
       throw new Error("Invalid spacing value");
     }

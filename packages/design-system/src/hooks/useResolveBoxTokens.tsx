@@ -84,7 +84,6 @@ export function useResolveBoxTokens(props: BoxTokens) {
   } = props;
 
   const theme = useInternalTheme();
-  console.log(JSON.stringify(theme.spacing, null, 2));
   const marginValues = mapMarginValue(
     {
       margin,

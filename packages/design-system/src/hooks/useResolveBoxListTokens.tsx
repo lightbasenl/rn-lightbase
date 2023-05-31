@@ -50,7 +50,6 @@ export function useResolveBoxListTokens<T extends ScrollableBoxProps>(props: T) 
   } = props;
 
   const theme = useInternalTheme();
-  console.log(JSON.stringify(theme, null, 2));
   const paddingValues = mapPaddingValues(
     {
       padding,
