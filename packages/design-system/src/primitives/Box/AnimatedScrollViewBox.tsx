@@ -15,8 +15,7 @@ type ScrollViewProps = RemoveStyles<RNScrollViewProps> & {
   style?: FilterStyles<RNScrollViewProps["style"]>;
 };
 
-export type AnimatedScrollViewBoxProps = ScrollableBoxProps &
-  AnimateProps<ScrollViewProps> & { hello: number };
+export type AnimatedScrollViewBoxProps = ScrollableBoxProps & AnimateProps<ScrollViewProps>;
 
 export const AnimatedScrollViewBox = forwardRef(function ScrollViewBox(
   { style, contentContainerStyle, ...props }: AnimatedScrollViewBoxProps,
