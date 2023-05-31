@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, RefAttributes, useContext } from "react";
+import React, { ForwardedRef, forwardRef, ReactElement, RefAttributes, useContext } from "react";
 import { FlatList, FlatListProps as RNFlatListProps } from "react-native";
 
 import { BackgroundContext } from "../../hooks/useBackgroundColor";
@@ -15,6 +15,10 @@ type FlatListProps<T> = RemoveStyles<RNFlatListProps<T>> & {
 };
 
 export type FlatListBoxProps<T> = ScrollableBoxProps & FlatListProps<T> & RefAttributes<FlatList<T>>;
+
+interface FlatListComponentType {
+  <T>(props: FlatListBoxProps<T>, ref: ForwardedRef<FlatList<T>>): ReactElement | null;
+}
 
 export const FlatListBox = forwardRef(function FlatListBox<T>(
   { style, contentContainerStyle, ...props }: FlatListBoxProps<T>,
@@ -33,4 +37,4 @@ export const FlatListBox = forwardRef(function FlatListBox<T>(
       />
     </BackgroundContext.Provider>
   );
-});
+}) as FlatListComponentType;

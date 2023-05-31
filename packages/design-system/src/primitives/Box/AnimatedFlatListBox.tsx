@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, useContext } from "react";
+import React, { ForwardedRef, RefAttributes, forwardRef, useContext } from "react";
 import { FlatListProps as RNFlatListProps } from "react-native";
 import Animated, { AnimateProps } from "react-native-reanimated";
 
@@ -15,7 +15,13 @@ type FlatListProps<T> = RemoveStyles<RNFlatListProps<T>> & {
   style?: FilterStyles<RNFlatListProps<T>["style"]>;
 };
 
-export type AnimatedFlatListBoxProps<T> = ScrollableBoxProps & AnimateProps<FlatListProps<T>>;
+export type AnimatedFlatListBoxProps<T> = ScrollableBoxProps &
+  AnimateProps<FlatListProps<T>> &
+  RefAttributes<Animated.FlatList<T>>;
+
+interface AnimatedFlatListComponentType {
+  <T>(props: AnimatedFlatListBoxProps<T>, ref: ForwardedRef<Animated.FlatList<T>>): JSX.Element;
+}
 
 export const AnimatedFlatListBox = forwardRef(function FlatListBox<T>(
   { style, contentContainerStyle, ...props }: AnimatedFlatListBoxProps<T>,
@@ -34,4 +40,4 @@ export const AnimatedFlatListBox = forwardRef(function FlatListBox<T>(
       />
     </BackgroundContext.Provider>
   );
-});
+}) as AnimatedFlatListComponentType;

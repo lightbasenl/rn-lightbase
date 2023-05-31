@@ -1,4 +1,4 @@
-import React, { ForwardedRef, forwardRef, useContext } from "react";
+import React, { ForwardedRef, RefAttributes, forwardRef, useContext } from "react";
 import { ScrollViewProps as RNScrollViewProps } from "react-native";
 import Animated, { AnimateProps } from "react-native-reanimated";
 
@@ -15,7 +15,13 @@ type ScrollViewProps = RemoveStyles<RNScrollViewProps> & {
   style?: FilterStyles<RNScrollViewProps["style"]>;
 };
 
-export type AnimatedScrollViewBoxProps = ScrollableBoxProps & AnimateProps<ScrollViewProps>;
+export type AnimatedScrollViewBoxProps = ScrollableBoxProps &
+  AnimateProps<ScrollViewProps> &
+  RefAttributes<Animated.ScrollView>;
+
+interface AnimatedScrollViewComponentType {
+  (props: AnimatedScrollViewBoxProps, ref: ForwardedRef<Animated.ScrollView>): JSX.Element;
+}
 
 export const AnimatedScrollViewBox = forwardRef(function ScrollViewBox(
   { style, contentContainerStyle, ...props }: AnimatedScrollViewBoxProps,
@@ -34,4 +40,4 @@ export const AnimatedScrollViewBox = forwardRef(function ScrollViewBox(
       />
     </BackgroundContext.Provider>
   );
-});
+}) as AnimatedScrollViewComponentType;
