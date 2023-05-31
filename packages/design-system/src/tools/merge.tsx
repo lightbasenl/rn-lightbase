@@ -2,62 +2,27 @@ export type DeepPartial<T> = {
   [P in keyof T]?: DeepPartial<T[P]>;
 };
 
-export function mergeDeepRight<T>(target: T, ...sources: DeepPartial<T>[]): T {
-  if (!sources.length) {
-    return target;
+export function mergeDeepRight<T>(...objects: T[]): T {
+  if (objects.length < 2) {
+    throw new Error("At least two objects are required for merging.");
   }
 
-  const source = sources.shift();
+  const isObject = (obj: any): obj is object => obj !== null && typeof obj === "object";
 
-  if (source && typeof source === "object") {
-    for (const key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        const sourceValue = source[key];
-        const targetValue = target[key];
-
-        if (
-          sourceValue &&
-          typeof sourceValue === "object" &&
-          targetValue &&
-          typeof targetValue === "object"
-        ) {
-          target[key] = mergeDeepRight(targetValue, sourceValue);
-        } else if (sourceValue !== undefined) {
-          target[key] = sourceValue as T[Extract<keyof T, string>];
-        }
-      }
+  return objects.reduce<T>((merged, obj) => {
+    if (!isObject(obj)) {
+      throw new Error("Invalid argument. Only objects can be merged.");
     }
-  }
 
-  return mergeDeepRight(target, ...sources);
-}
-
-export function mergeDeepLeft<T>(target: T, ...sources: DeepPartial<T>[]): T {
-  if (!sources.length) {
-    return target;
-  }
-
-  const source = sources.shift();
-
-  if (source && typeof source === "object") {
-    for (const key in source) {
-      if (Object.prototype.hasOwnProperty.call(source, key)) {
-        const sourceValue = source[key];
-        const targetValue = target[key];
-
-        if (
-          sourceValue &&
-          typeof sourceValue === "object" &&
-          targetValue &&
-          typeof targetValue === "object"
-        ) {
-          target[key] = mergeDeepLeft(sourceValue as any, targetValue);
-        } else if (sourceValue !== undefined) {
-          target[key] = sourceValue as T[Extract<keyof T, string>];
-        }
+    Object.keys(obj).forEach((key) => {
+      const typedKey = key as keyof T;
+      if (isObject(obj[typedKey]) && isObject(merged[typedKey])) {
+        merged[typedKey] = mergeDeepRight(merged[typedKey], obj[typedKey]);
+      } else {
+        merged[typedKey] = obj[typedKey];
       }
-    }
-  }
+    });
 
-  return mergeDeepLeft(target, ...sources);
+    return merged;
+  }, {} as T);
 }
