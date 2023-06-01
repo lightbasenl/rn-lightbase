@@ -20,7 +20,7 @@ export function mapValues<T extends object, U>(
 export const mapMarginValue = (margins: MarginValues, spacingConfig: Record<string, number>) =>
   mapValues(margins, (value) => {
     if (!value) {
-      return 0;
+      return undefined;
     }
     if (spacingConfig == null) {
       throw new Error("Spacing not configured in theme");
