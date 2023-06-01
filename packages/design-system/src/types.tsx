@@ -9,27 +9,29 @@
 // now your whole app/kit should be typed correctly
 //
 
-import { ButtonProps } from "components/Button";
-import { ViewStyle } from "react-native/types";
+import { ReactElement } from "react";
+import { ViewStyle } from "react-native";
 
 export interface LBCustomConfig {}
 export interface LBConfig extends Omit<GenericLBConfig, keyof LBCustomConfig>, LBCustomConfig {}
 
 // CONFIG
+
 export type CreateLBConfig<
   TMetrics extends FontMetrics,
   TColors extends LightColors,
   TFontSizes extends GenericFontSizes,
   TSpacing extends SpacingConfig,
   TRadius extends SpacingConfig,
-  TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>
+  TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>,
+  TButtonVariant extends ButtonVariant<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius>
 > = {
   typography: Typography<TMetrics, TFontSizes>;
-  variants: Variants<TMetrics, TColors, TFontSizes, TTextVariant>;
+  variants: Variants<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius, TButtonVariant>;
   colors: ThemeColors<TColors>;
   spacing: TSpacing;
   radius: TRadius;
-  defaults: Defaults<TMetrics, TFontSizes, TColors, TSpacing, TTextVariant>;
+  defaults: Defaults<TMetrics, TFontSizes, TColors, TSpacing, TTextVariant, TRadius>;
 };
 
 export type GenericLBConfig = CreateLBConfig<
@@ -38,7 +40,15 @@ export type GenericLBConfig = CreateLBConfig<
   GenericFontSizes,
   SpacingConfig,
   SpacingConfig,
-  TextVariant<FontMetrics, GenericFontSizes, LightColors>
+  TextVariant<FontMetrics, GenericFontSizes, LightColors>,
+  ButtonVariant<
+    FontMetrics,
+    LightColors,
+    GenericFontSizes,
+    TextVariant<FontMetrics, GenericFontSizes, LightColors>,
+    SpacingConfig,
+    SpacingConfig
+  >
 >;
 
 export type FontVariant = keyof LBConfig["variants"]["Text"];
@@ -63,11 +73,7 @@ export type Spacing = SpaceKey | { custom: ViewStyle["margin"] } | undefined;
 export type NegativeSpace = `-${SpaceKey}` | { custom: ViewStyle["margin"] } | undefined;
 export type Radius = keyof LBConfig["radius"] | { custom: number };
 
-export type DefaultButton = Omit<ButtonProps, "children" | "variants" | "themecolor"> & {
-  variant: "solid" | "soft" | "outline" | "link" | "icon" | "unstyled";
-  themeColor: ColorThemeKeys;
-  textVariant: FontVariant;
-};
+export type DefaultButton = LBConfig["defaults"]["Button"];
 
 export type FontMetric = {
   capHeight: number;
@@ -182,14 +188,55 @@ export type BorderStyles =
   | "borderTopWidth";
 
 // Private types
-
+export type ButtonVariants = "solid" | "soft" | "outline" | "link" | "icon" | "unstyled";
 export type LightColors = { [colorToken: string]: string };
 export type ThemeColors<T extends LightColors> = { light: T; dark: Partial<T> };
 export type CustomColor<T extends LightColors> = keyof T | { custom: string };
 export type GenericFontSizes = { [sizeToken: string]: { fontSize: number; lineHeight: number } };
 export type FontMetrics = { [family: string]: FontMetric | null };
-
 export type SpacingConfig = { [sizeToken: string]: number };
+export type TextVariant<
+  TMetrics extends FontMetrics,
+  TFontSizes extends GenericFontSizes,
+  TColors extends LightColors
+> = {
+  [variant: string]: {
+    family: keyof TMetrics;
+    weight: FontWeights;
+    size: keyof TFontSizes;
+    color: CustomColor<TColors>;
+  };
+};
+
+export type ButtonVariant<
+  TMetrics extends FontMetrics,
+  TColors extends LightColors,
+  TFontSizes extends GenericFontSizes,
+  TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>,
+  TSpacing extends SpacingConfig,
+  TRadius extends SpacingConfig
+> = {
+  [variant in ButtonVariants]: {
+    backgroundColor?: CustomColor<TColors>;
+    borderColor?: CustomColor<TColors>;
+    textColor?: CustomColor<TColors>;
+    onPressBorderColor?: CustomColor<TColors>;
+    onPressColor?: CustomColor<TColors>;
+    textVariant?: keyof TTextVariant;
+    onPressAnimatedScale?: number;
+    height?: number;
+    width?: number;
+    borderWidth?: number;
+    borderRadius?: keyof TRadius;
+    paddingHorizontal?: keyof TSpacing;
+    paddingLeft?: keyof TSpacing;
+    paddingRight?: keyof TSpacing;
+    padding?: keyof TSpacing;
+    paddingVertical?: keyof TSpacing;
+    paddingBottom?: keyof TSpacing;
+    paddingTop?: keyof TSpacing;
+  };
+};
 
 export type Typography<TMetrics extends FontMetrics, TFontSizes extends GenericFontSizes> = {
   fonts: TMetrics;
@@ -200,10 +247,13 @@ export type Variants<
   TMetrics extends FontMetrics,
   TColors extends LightColors,
   TFontSizes extends GenericFontSizes,
-  TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>
+  TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>,
+  TSpacing extends SpacingConfig,
+  TRadius extends SpacingConfig,
+  TButtonVariant extends ButtonVariant<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius>
 > = {
   Text: TTextVariant;
-  Button: any;
+  Button: Partial<TButtonVariant>;
 };
 
 export type Defaults<
@@ -211,7 +261,8 @@ export type Defaults<
   TFontSizes extends GenericFontSizes,
   TColors extends LightColors,
   TSpacing extends SpacingConfig,
-  TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>
+  TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>,
+  TRadius extends SpacingConfig
 > = {
   Text:
     | {
@@ -228,7 +279,26 @@ export type Defaults<
         size?: keyof TFontSizes;
         color?: CustomColor<TColors>;
       };
-  Button?: any;
+  Button: {
+    themeColor: CustomColor<TColors>;
+    variant?: ButtonVariants;
+    textColor?: CustomColor<TColors>;
+    onPressBorderColor?: CustomColor<TColors>;
+    onPressColor?: CustomColor<TColors>;
+    textVariant?: keyof TTextVariant;
+    onPressAnimatedScale?: number;
+    height?: number;
+    width?: number;
+    borderWidth?: number;
+    borderRadius?: keyof TRadius;
+    paddingHorizontal?: keyof TSpacing;
+    paddingLeft?: keyof TSpacing;
+    paddingRight?: keyof TSpacing;
+    padding?: keyof TSpacing;
+    paddingVertical?: keyof TSpacing;
+    paddingBottom?: keyof TSpacing;
+    paddingTop?: keyof TSpacing;
+  };
   Screen: {
     backgroundColor?: keyof TColors;
     paddingHorizontal?: keyof TSpacing;
@@ -238,18 +308,6 @@ export type Defaults<
     paddingVertical?: keyof TSpacing;
     paddingBottom?: keyof TSpacing;
     paddingTop?: keyof TSpacing;
-  };
-};
-
-export type TextVariant<
-  TMetrics extends FontMetrics,
-  TFontSizes extends GenericFontSizes,
-  TColors extends LightColors
-> = {
-  [variant: string]: {
-    family: keyof TMetrics;
-    weight: FontWeights;
-    size: keyof TFontSizes;
-    color: CustomColor<TColors>;
+    backgroundComponent?: ReactElement;
   };
 };

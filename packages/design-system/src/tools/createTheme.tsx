@@ -1,4 +1,5 @@
 import type {
+  ButtonVariant,
   CreateLBConfig,
   FontMetrics,
   GenericFontSizes,
@@ -13,10 +14,11 @@ export function createtheme<
   S extends GenericFontSizes,
   Spacing extends SpacingConfig,
   Radius extends SpacingConfig,
-  TTextVariant extends TextVariant<K, S, T>
+  TTextVariant extends TextVariant<K, S, T>,
+  TButtonVariant extends ButtonVariant<K, T, S, TTextVariant, Spacing, Radius>
 >(
-  config: CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant>
-): CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant> {
+  config: CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant>
+): CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant> {
   const themeColors = {
     light: config.colors.light,
     dark: { ...config.colors.light, ...config.colors.dark },

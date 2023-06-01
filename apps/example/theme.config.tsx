@@ -50,13 +50,15 @@ export const theme = createtheme({
     Text: {
       good: { family: "Montserrat", weight: "thin", size: "32px", color: "primary" },
     },
-    Button: {},
+    Button: {
+      link: {
+        backgroundColor: "primary",
+      },
+    },
   },
   defaults: {
     Text: { family: "Montserrat" },
-    Button: {},
-    Screen: {
-      paddingHorizontal: "12px",
-    },
+    Button: { themeColor: "primary", variant: "link" },
+    Screen: { paddingHorizontal: "12px" },
   },
 });

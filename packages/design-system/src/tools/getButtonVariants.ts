@@ -3,9 +3,7 @@ import { ButtonProps } from "components/Button";
 import { TextProps } from "components/Text";
 
 import { mergeDeepRight } from "./merge";
-import { ColorThemeKeys, DefaultButton } from "../types";
-
-export type ButtonVariants = "solid" | "soft" | "outline" | "link" | "icon" | "unstyled";
+import { ButtonVariants, ColorThemeKeys, DefaultButton } from "../types";
 
 type ButtonVariantType = Partial<ButtonProps> & {
   backgroundColor?: ColorThemeKeys;

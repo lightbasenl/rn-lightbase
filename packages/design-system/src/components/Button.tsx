@@ -21,8 +21,8 @@ import { AnimatedBox } from "../primitives/Box/AnimatedBox";
 import type { BoxProps } from "../primitives/Box/Box";
 import { Row, RowProps } from "../primitives/Row";
 import { getActiveColor } from "../tools/colorUtils";
-import { ButtonVariants, getButtonVariants } from "../tools/getButtonVariants";
-import type { AlignmentValues, ColorThemeKeys } from "../types";
+import { getButtonVariants } from "../tools/getButtonVariants";
+import type { AlignmentValues, ButtonVariants, ColorThemeKeys } from "../types";
 
 type OmittedBoxProps = Omit<BoxProps, keyof AlignmentValues | "style">;
 
@@ -74,7 +74,7 @@ export function Button({
 
   const resolveThemeColor = useResolveColorToken();
 
-  const defaultVariant = variant ?? theme.defaults.Button.variant;
+  const defaultVariant = variant ?? theme.defaults.Button.variant ?? "solid";
 
   const variants = useMemo(
     () =>
