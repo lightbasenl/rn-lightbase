@@ -2,7 +2,7 @@ import tinycolor from "@ctrl/tinycolor";
 import * as React from "react";
 import { createContext, useCallback, useContext, useMemo } from "react";
 import { ActivityIndicator, Pressable, PressableProps, PressableStateCallbackType } from "react-native";
-import {
+import Animated, {
   Easing,
   interpolate,
   interpolateColor,
@@ -22,9 +22,12 @@ import type { BoxProps } from "../primitives/Box/Box";
 import { Row, RowProps } from "../primitives/Row";
 import { getActiveColor } from "../tools/colorUtils";
 import { getButtonVariants } from "../tools/getButtonVariants";
-import type { AlignmentValues, ButtonVariants, ColorThemeKeys } from "../types";
+import type { ButtonVariants, ColorThemeKeys } from "../types";
 
-type OmittedBoxProps = Omit<BoxProps, keyof AlignmentValues | "style">;
+type OmittedBoxProps = Omit<
+  BoxProps,
+  "alignItems" | "alignSelf" | "flexDirection" | "flexWrap" | "justifyContent" | "style"
+>;
 
 type ButtonSpecificProps = {
   variant?: ButtonVariants;
@@ -196,7 +199,7 @@ export function Button({
 
   return (
     <ButtonContext.Provider value={combinedProps}>
-      <AnimatedBox style={[animatedStyle, tokens]}>
+      <Animated.View style={[animatedStyle, tokens]}>
         <Pressable
           onPressIn={handlePressIn}
           onPressOut={handlePressOut}
@@ -212,7 +215,7 @@ export function Button({
             {isLoading ? _LoadingComponent : children}
           </Row>
         </Pressable>
-      </AnimatedBox>
+      </Animated.View>
     </ButtonContext.Provider>
   );
 }
