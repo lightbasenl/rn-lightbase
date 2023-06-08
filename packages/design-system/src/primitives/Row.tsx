@@ -90,7 +90,7 @@ export function Row({
   return (
     <Box
       flexDirection="row"
-      alignItems={alignVertical ? alignVerticalToFlexAlign[alignVertical] : undefined}
+      alignItems={alignVertical && !wrap ? alignVerticalToFlexAlign[alignVertical] : undefined}
       justifyContent={alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined}
       flexWrap={wrap ? "wrap" : undefined}
       testID={testID}
