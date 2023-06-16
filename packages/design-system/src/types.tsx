@@ -309,5 +309,7 @@ export type Defaults<
     paddingBottom?: keyof TSpacing;
     paddingTop?: keyof TSpacing;
     backgroundComponent?: ReactElement;
+    absolutePositionedTabBar?: boolean;
+    edges?: ("top" | "bottom")[];
   };
 };
