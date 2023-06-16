@@ -40,7 +40,7 @@ interface ScreenComponentType {
 export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S>, ref: ForwardedRef<any>) {
   const { defaults } = useInternalTheme();
   const navigation = useNavigation();
-  const combinedProps = { ...defaults.Screen, ...p };
+  const combinedProps = { ...defaults.Screen, ...p, options: { ...defaults.Screen.options, ...p.options } };
   const { options, mode, edges, backgroundComponent, backgroundColor, absolutePositionedTabBar, ...props } =
     combinedProps;
 
@@ -58,10 +58,7 @@ export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S
     customEdges.push("top");
   }
 
-  if (
-    // getNavigationOptions()?.headerTransparent !== true &&
-    options?.headerTransparent !== true
-  ) {
+  if (options?.headerTransparent !== true) {
     headerHeight = 0;
   }
   if (!absolutePositionedTabBar) {

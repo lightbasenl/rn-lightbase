@@ -9,8 +9,10 @@
 // now your whole app/kit should be typed correctly
 //
 
+import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import { ReactElement } from "react";
 import { ViewStyle } from "react-native";
+import { SafeAreaViewProps } from "react-native-safe-area-context";
 
 export interface LBCustomConfig {}
 export interface LBConfig extends Omit<GenericLBConfig, keyof LBCustomConfig>, LBCustomConfig {}
@@ -311,5 +313,7 @@ export type Defaults<
     backgroundComponent?: ReactElement;
     absolutePositionedTabBar?: boolean;
     edges?: ("top" | "bottom")[];
+    options?: NativeStackNavigationOptions;
+    mode?: SafeAreaViewProps["mode"];
   };
 };
