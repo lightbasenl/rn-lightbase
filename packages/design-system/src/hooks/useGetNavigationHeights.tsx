@@ -1,13 +1,13 @@
-import { BottomTabBarHeightContext } from "@react-navigation/bottom-tabs";
-import { useHeaderHeight } from "@react-navigation/elements";
 import { useContext } from "react";
 
 export const useGetBottomTabBarHeight = () => {
-  const bottom = useContext(BottomTabBarHeightContext);
+  const BottomTabBarHeightContext = require("@react-navigation/bottom-tabs")?.BottomTabBarHeightContext;
+  const bottom: number | undefined = useContext?.(BottomTabBarHeightContext);
   return bottom ?? 0;
 };
 
 export const useGetHeaderHeight = () => {
-  const header = useHeaderHeight();
+  const useHeaderHeight = require("@react-navigation/elements")?.useHeaderHeight;
+  const header: number | undefined = useHeaderHeight?.();
   return header ?? 0;
 };
