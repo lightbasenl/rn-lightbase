@@ -223,13 +223,14 @@ export function Button({
 function ButtonText({ children, variant: textVariant, ...props }: Omit<TextProps, "family">) {
   const variant = useButtonContext();
   const theme = useInternalTheme();
+  const variantText = textVariant ?? variant.textVariant ?? theme.defaults.Button.textVariant;
+  const variantTextColor =
+    variantText && theme.variants.Text[variantText].color
+      ? theme.variants.Text[variantText].color
+      : undefined;
+
   return (
-    <Text
-      textAlign="center"
-      color={variant.textColor}
-      variant={textVariant ?? variant.textVariant ?? theme.defaults.Button.textVariant}
-      {...props}
-    >
+    <Text textAlign="center" color={variant.textColor ?? variantTextColor} variant={variantText} {...props}>
       {children}
     </Text>
   );
