@@ -45,7 +45,7 @@ export function getButtonVariants({
       width: "100%",
     },
     soft: {
-      backgroundColor: { custom: tinycolor(resolveThemeColor(themeColor)).tint(85).toHexString() },
+      onPressColor: { custom: tinycolor(resolveThemeColor(themeColor)).tint(85).toHexString() },
       textColor: themeColor,
       borderWidth: 1,
       width: "100%",
