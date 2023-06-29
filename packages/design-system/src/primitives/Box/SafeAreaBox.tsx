@@ -17,14 +17,14 @@ export const SafeAreaBox = ({ children, edges, ...props }: SafeAreaBoxProps) => 
   // https://reactnavigation.org/docs/handling-safe-area/#summary
   const insets = useSafeAreaInsets();
   if (edges?.includes("top")) {
-    const top = paddingValues.paddingTop ?? paddingValues.paddingVertical ?? 0;
+    const top = paddingValues.paddingTop ?? paddingValues.paddingVertical ?? paddingValues.padding ?? 0;
     if (typeof top !== "number") {
       throw new Error("vertical padding must be a number when used within a safe area");
     }
     paddingValues.paddingTop = insets.top + top;
   }
   if (edges?.includes("bottom")) {
-    const bottom = paddingValues.paddingBottom ?? paddingValues.paddingVertical ?? 0;
+    const bottom = paddingValues.paddingBottom ?? paddingValues.paddingVertical ?? paddingValues.padding ?? 0;
     if (typeof bottom !== "number") {
       throw new Error("vertical padding must be a number when used within a safe area");
     }
