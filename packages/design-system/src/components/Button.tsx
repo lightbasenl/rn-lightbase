@@ -207,7 +207,7 @@ export function Button({
             color: pressColor === "transparent" ? undefined : pressColor,
           }}
           onPress={onPress}
-          disabled={isLoading ?? disabled}
+          disabled={!!isLoading || !!disabled}
           style={pressableStyle}
           {...rest}
         >
