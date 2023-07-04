@@ -1,9 +1,8 @@
-import { AnimatedScrollViewBox, Box, Row, ScrollViewBox, Stack, Text, ThemeProvider } from "@lightbase/rn-design-system";
-import Animated, { useAnimatedRef } from "react-native-reanimated";
-
-import { theme } from "./theme.config";
+import { Box, Row, ScrollViewBox, Stack, Text, ThemeProvider, BoxProps } from "@lightbase/rn-design-system";
 import { useRef } from "react";
 import { ScrollView } from "react-native/types";
+
+import { theme } from "./theme.config";
 
 export default function App() {
   return (
@@ -101,6 +100,16 @@ export const Main = () => {
           ))}
         </Stack>
       </Stack>
-    </AnimatedScrollViewBox>
+    </ScrollViewBox>
   );
 };
+
+type Props = {
+  onSubtract: () => void;
+  onAdd: () => void;
+  quantity: number;
+  maxQuantity?: number;
+};
+export function Counter({ onAdd, onSubtract, quantity, maxQuantity = Infinity, ...rest }: Props & BoxProps) {
+  return <Box backgroundColor="primary" padding="20px" borderRadius="4px" {...rest} />;
+}
