@@ -28,7 +28,7 @@ export const SafeAreaBox = ({ children, edges, ...props }: SafeAreaBoxProps) => 
     if (typeof bottom !== "number") {
       throw new Error("vertical padding must be a number when used within a safe area");
     }
-    paddingValues.paddingBottom = insets.bottom ? insets.bottom : bottom;
+    paddingValues.paddingBottom = insets.bottom + bottom;
   }
   return (
     <BackgroundContext.Provider value={tokenStyles.backgroundColor ?? color}>
