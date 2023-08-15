@@ -190,7 +190,7 @@ export type BorderStyles =
   | "borderTopWidth";
 
 // Private types
-export type ButtonVariants = "solid" | "soft" | "outline" | "link" | "icon" | "unstyled";
+export type ButtonVariants = "solid" | "soft" | "outline" | "link" | "icon" | "unstyled" | "ghost";
 export type LightColors = { [colorToken: string]: string };
 export type ThemeColors<T extends LightColors> = { light: T; dark: Partial<T> };
 export type CustomColor<T extends LightColors> = keyof T | { custom: string };

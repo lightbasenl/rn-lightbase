@@ -50,6 +50,14 @@ export function getButtonVariants({
       borderWidth: 1,
       width: "100%",
     },
+    ghost: {
+      backgroundColor: { custom: parentBackGroundColor },
+      borderColor: { custom: parentBackGroundColor },
+      onPressColor: { custom: tinycolor(resolveThemeColor(themeColor)).mix("#fff", 92).toHexString() },
+      textColor: themeColor,
+      borderWidth: 0,
+      width: "100%",
+    },
     link: {
       height: 30,
       textColor: themeColor,
