@@ -2534,7 +2534,7 @@
   resolved "file:packages/expo-push-kit"
 
 "@lightbase/native-assets@*", "@lightbase/native-assets@file:/Users/oliverwinter/code/rn-lightbase/packages/native-assets":
-  version "1.1.0"
+  version "1.2.0"
   resolved "file:packages/native-assets"
   dependencies:
     mime "^3.0.0"

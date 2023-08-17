@@ -1,6 +1,6 @@
 {
   "name": "@lightbase/native-assets",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "An Expo Config Plugin that links native assets to the native projects and outputs font configuration for lightbase internal design system",
   "main": "build",
   "files": [
