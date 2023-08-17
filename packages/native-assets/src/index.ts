@@ -108,24 +108,24 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
           const fontStyle = font.tables.post.italicAngle !== 0 ? "italic" : "normal";
           let fontWeight: number = font.tables.os2.usWeightClass;
           // @ts-expect-error preferredSubfamily exists
-          const subFamily = font.names.preferredSubfamily?.en.toLowerCase();
+          const subFamily = font.names.preferredSubfamily?.en.toLowerCase() as string | undefined;
 
           // some fonts have incorrect weights added and will crash android if repeated weights are added
 
           if (fontWeight === 400) {
-            if (subFamily.includes("book")) fontWeight = 300;
-            if (subFamily.includes("bold")) fontWeight = 700;
-            if (subFamily.includes("demibold")) fontWeight = 600;
+            if (subFamily?.includes("book")) fontWeight = 300;
+            if (subFamily?.includes("bold")) fontWeight = 700;
+            if (subFamily?.includes("demibold")) fontWeight = 600;
           }
 
-          if (fontWeight === 300 && subFamily.includes("thin")) {
+          if (fontWeight === 300 && subFamily?.includes("thin")) {
             // some fonts have incorrect weights added and will crash android if repeated weights are added
             fontWeight = 100;
           }
 
           // font weight needs to be 100, 200, 300, 400, 500, 600, 700, 800, 900 so check the 250 weights to distiguish between 200 and 100
           if (fontWeight === 250) {
-            fontWeight = subFamily.includes("extralight") ? 200 : 100;
+            fontWeight = subFamily?.includes("extralight") ? 200 : 100;
           }
           // CHECK IF BAD FILE NAME IS PARSED CORRECTLY CHANGE A FONT NAME TO SOMETHING RANDOM
           xmlContent += `\n  <font app:fontStyle="${fontStyle}" app:fontWeight="${fontWeight}" app:font="@font/${postScriptName}" />`;
