@@ -209,7 +209,7 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
 
       const typographyFileString = JSON.stringify(fontMetrics);
 
-      const formattedContent = prettier.format(
+      const formattedContent = await prettier.format(
         `
         // This file is codegenerated as part of the link-assets expo config plugin
         type FontWeightsArray = ${JSON.stringify(fontWeights)};
