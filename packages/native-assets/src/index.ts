@@ -80,7 +80,10 @@ function groupBy<T>(arr: T[], block: (v: T) => any): Record<string, T[]> {
   return out;
 }
 
-const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[] }> = (config, { font }) => {
+const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]; src?: string }> = (
+  config,
+  { font, src }
+) => {
   const fontWeights: Record<string, number[]> = {};
   const fontMetrics: Record<string, FontMetric | null> = {};
   const fontImports: Record<string, string[]> = {};
@@ -218,7 +221,7 @@ const withAndroidLinkedAsset: ConfigPlugin<{ font?: string[][]; image?: string[]
         { parser: "typescript" }
       );
 
-      fs.writeFileSync("./theme.typography.tsx", formattedContent);
+      fs.writeFileSync(`${src}/theme.typography.tsx`, formattedContent);
 
       console.log(
         chalk.green("» ") +
@@ -285,7 +288,7 @@ const withIosLinkedAsset: ConfigPlugin<Record<string, string[]>> = (config, { fo
   return config;
 };
 
-const withLinkedAsset: ConfigPlugin<{ folders: string[] }> = (config, props) => {
+const withLinkedAsset: ConfigPlugin<{ folders: string[]; src?: string }> = (config, props) => {
   const expanded = props.folders
     .map((filePath) => {
       const resolved = path.resolve(config._internal?.projectRoot, filePath);
@@ -319,7 +322,7 @@ const withLinkedAsset: ConfigPlugin<{ folders: string[] }> = (config, props) => 
     regroupedAssets.assets.font.push(fontMap[family]);
   }
 
-  withAndroidLinkedAsset(config, regroupedAssets.assets);
+  withAndroidLinkedAsset(config, { ...regroupedAssets.assets, src: props.src ?? "./" });
   return config;
 };
 
