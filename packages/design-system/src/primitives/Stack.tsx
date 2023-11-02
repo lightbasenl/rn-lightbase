@@ -1,6 +1,6 @@
 import React, { Fragment, isValidElement, ReactElement, ReactNode } from "react";
 
-import { Box } from "./Box/Box";
+import { Box, BoxProps } from "./Box/Box";
 import { useInternalTheme } from "../hooks/useInternalTheme";
 import { getValidChildren } from "../tools/getValidChildren";
 import { useStyle } from "../tools/useStyle";
@@ -26,17 +26,24 @@ export type StackProps = {
   children: ReactNode;
   alignHorizontal?: AlignHorizontal;
   alignVertical?: AlignVertical;
-  flex?: number;
   space?: Spacing;
   separator?: ReactElement;
-};
+} & Omit<BoxProps, "justifyContent" | "alignItems">;
 
 /**
  * @description Arranges child nodes vertically with equal spacing between
  * them, plus an optional `separator` element. Items can optionally be aligned
  * horizontally and/or vertically.
  */
-export function Stack({ children, alignHorizontal, alignVertical, separator, space, flex }: StackProps) {
+export function Stack({
+  children,
+  alignHorizontal,
+  alignVertical,
+  separator,
+  space,
+  style,
+  ...rest
+}: StackProps) {
   if (__DEV__ && separator && !isValidElement(separator)) {
     throw new Error(`Stack: The 'separator' prop must be a React element`);
   }
@@ -57,7 +64,7 @@ export function Stack({ children, alignHorizontal, alignVertical, separator, spa
 
   const validChildren = getValidChildren(children);
 
-  const style = useStyle(() => ({ rowGap: spaceMap(space) }), [space]);
+  const gapStyles = useStyle(() => ({ rowGap: spaceMap(space) }), [space]);
 
   const clones = validChildren.map((child, index) => {
     const key = typeof child.key !== "undefined" ? child.key : index;
@@ -80,10 +87,10 @@ export function Stack({ children, alignHorizontal, alignVertical, separator, spa
 
   return (
     <Box
-      flex={flex}
       alignItems={alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined}
       justifyContent={alignVertical ? alignVerticalToFlexAlign[alignVertical] : undefined}
-      style={style}
+      style={[gapStyles, style]}
+      {...rest}
     >
       {clones}
     </Box>

@@ -1,7 +1,6 @@
-import React, { Fragment, ReactElement, ReactNode } from "react";
-import { ViewProps, ViewStyle } from "react-native";
+import React, { Fragment, ReactElement } from "react";
 
-import { Box } from "./Box/Box";
+import { Box, BoxProps } from "./Box/Box";
 import { useInternalTheme } from "../hooks/useInternalTheme";
 import { getValidChildren } from "../tools/getValidChildren";
 import { useStyle } from "../tools/useStyle";
@@ -23,26 +22,22 @@ export const alignVerticalToFlexAlign = {
 } as const;
 type AlignVertical = keyof typeof alignVerticalToFlexAlign;
 
-export type RowProps = {
-  children: ReactNode;
+export type RowProps = Omit<BoxProps, "justifyContent" | "alignItems"> & {
   alignHorizontal?: AlignHorizontal;
   alignVertical?: AlignVertical;
   space?: Spacing;
   horizontalSpace?: Spacing;
   verticalSpace?: Spacing;
-  testID?: ViewProps["testID"];
-  flex?: ViewStyle["flex"];
-  width?: ViewStyle["width"];
 } & (
-  | {
-      separator?: undefined;
-      wrap?: true;
-    }
-  | {
-      separator?: ReactElement;
-      wrap?: false;
-    }
-);
+    | {
+        separator?: undefined;
+        wrap?: true;
+      }
+    | {
+        separator?: ReactElement;
+        wrap?: false;
+      }
+  );
 
 /**
  * @description Arranges child nodes horizontally with equal spacing between
@@ -53,14 +48,13 @@ export function Row({
   children,
   alignHorizontal,
   alignVertical = "center",
-  testID,
-  flex,
-  width,
   space,
   horizontalSpace: horizontalSpaceProp,
   verticalSpace: verticalSpaceProp,
   wrap,
   separator,
+  style,
+  ...rest
 }: RowProps) {
   const validChildren = getValidChildren(children);
 
@@ -82,7 +76,7 @@ export function Row({
   const verticalSpace = verticalSpaceProp ?? space;
   const horizontalSpace = horizontalSpaceProp ?? space;
 
-  const style = useStyle(
+  const rowStyle = useStyle(
     () => ({ rowGap: spaceMap(verticalSpace), columnGap: spaceMap(horizontalSpace) }),
     [verticalSpace, horizontalSpace]
   );
@@ -93,10 +87,8 @@ export function Row({
       alignItems={alignVertical && !wrap ? alignVerticalToFlexAlign[alignVertical] : undefined}
       justifyContent={alignHorizontal ? alignHorizontalToFlexAlign[alignHorizontal] : undefined}
       flexWrap={wrap ? "wrap" : undefined}
-      testID={testID}
-      width={width}
-      style={style}
-      flex={flex}
+      style={[rowStyle, style]}
+      {...rest}
     >
       {validChildren.map((child, index) => {
         const key = typeof child.key !== "undefined" ? child.key : index;

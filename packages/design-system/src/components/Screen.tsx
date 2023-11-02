@@ -1,5 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
+import {
+  KeyboardAwareScrollViewBox,
+  KeyboardAwareScrollViewBoxProps,
+} from "primitives/Box/KeyboardAwareScrollViewBox";
 import React, { ForwardedRef, forwardRef, ReactNode, RefObject, ReactElement, useLayoutEffect } from "react";
 import { FlatList, ScrollView, SectionList, StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
@@ -18,7 +22,7 @@ import { SectionListBox, SectionListBoxProps } from "../primitives/Box/SectionLi
 export type ScreenBaseProps = {
   options?: NativeStackNavigationOptions;
   mode?: SafeAreaViewProps["mode"];
-  edges?: readonly ("top" | "bottom")[];
+  edges?: Edge[];
   backgroundComponent?: ReactElement | null;
   absolutePositionedTabBar?: boolean;
 };
@@ -31,6 +35,7 @@ export type ScreenProps<T, S> = ScreenBaseProps &
     | ({ as: "FlatList"; ref?: RefObject<FlatList> } & FlatListBoxProps<T>)
     | ({ as: "AnimatedFlatList"; ref?: RefObject<Animated.FlatList<T>> } & AnimatedFlatListBoxProps<T>)
     | ({ as: "SectionList"; ref?: RefObject<SectionList<T, S>> } & SectionListBoxProps<T, S>)
+    | ({ as: "KeyboardAwareScrollView"; ref?: RefObject<ScrollView> } & KeyboardAwareScrollViewBoxProps)
   );
 
 interface ScreenComponentType {
@@ -86,6 +91,25 @@ export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S
             {children}
           </SafeAreaBox>
         </ScrollViewBox>
+      </ScreenContainer>
+    );
+  }
+
+  if (props.as === "KeyboardAwareScrollView") {
+    const { children, ...rest } = props;
+    return (
+      <ScreenContainer backgroundColor={backgroundColor}>
+        <KeyboardAwareScrollViewBox
+          ref={ref}
+          flex={1}
+          paddingTop={{ custom: headerHeight }}
+          paddingBottom={{ custom: bottomTabHeight }}
+          {...rest}
+        >
+          <SafeAreaBox edges={edgeArray} flex={1}>
+            {children}
+          </SafeAreaBox>
+        </KeyboardAwareScrollViewBox>
       </ScreenContainer>
     );
   }

@@ -1,3 +1,4 @@
+import { createTextSize } from "../theme/typography";
 import type {
   ButtonVariant,
   CreateLBConfig,
@@ -15,7 +16,7 @@ export function createtheme<
   Spacing extends SpacingConfig,
   Radius extends SpacingConfig,
   TTextVariant extends TextVariant<K, S, T>,
-  TButtonVariant extends ButtonVariant<K, T, S, TTextVariant, Spacing, Radius>
+  TButtonVariant extends ButtonVariant<K, T, S, TTextVariant, Spacing, Radius>,
 >(
   config: CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant>
 ): CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant> {
@@ -25,5 +26,20 @@ export function createtheme<
   };
 
   config.colors = themeColors;
+
+  const fonts = Object.entries(config.typography.sizes).reduce((prev, cur) => {
+    Object.entries(config.typography.fonts).forEach(([fontKey, fontValue]) => {
+      const [key, value] = cur;
+      const { fontSize, lineHeight, marginBottom, marginTop } = createTextSize({
+        fontMetrics: fontValue,
+        ...value,
+      });
+      prev[key] = { fontSize, lineHeight, [fontKey]: { marginTop, marginBottom } };
+    });
+    return prev;
+  }, {} as any);
+
+  config.typography.sizes = fonts;
+
   return config;
 }

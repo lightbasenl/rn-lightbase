@@ -26,7 +26,7 @@ export type CreateLBConfig<
   TSpacing extends SpacingConfig,
   TRadius extends SpacingConfig,
   TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>,
-  TButtonVariant extends ButtonVariant<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius>
+  TButtonVariant extends ButtonVariant<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius>,
 > = {
   typography: Typography<TMetrics, TFontSizes>;
   variants: Variants<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius, TButtonVariant>;
@@ -200,7 +200,7 @@ export type SpacingConfig = { [sizeToken: string]: number };
 export type TextVariant<
   TMetrics extends FontMetrics,
   TFontSizes extends GenericFontSizes,
-  TColors extends LightColors
+  TColors extends LightColors,
 > = {
   [variant: string]: {
     family: keyof TMetrics;
@@ -216,7 +216,7 @@ export type ButtonVariant<
   TFontSizes extends GenericFontSizes,
   TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>,
   TSpacing extends SpacingConfig,
-  TRadius extends SpacingConfig
+  TRadius extends SpacingConfig,
 > = {
   [variant in ButtonVariants]: {
     backgroundColor?: CustomColor<TColors>;
@@ -252,7 +252,7 @@ export type Variants<
   TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>,
   TSpacing extends SpacingConfig,
   TRadius extends SpacingConfig,
-  TButtonVariant extends ButtonVariant<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius>
+  TButtonVariant extends ButtonVariant<TMetrics, TColors, TFontSizes, TTextVariant, TSpacing, TRadius>,
 > = {
   Text: TTextVariant;
   Button: Partial<TButtonVariant>;
@@ -264,7 +264,7 @@ export type Defaults<
   TColors extends LightColors,
   TSpacing extends SpacingConfig,
   TTextVariant extends TextVariant<TMetrics, TFontSizes, TColors>,
-  TRadius extends SpacingConfig
+  TRadius extends SpacingConfig,
 > = {
   Text:
     | {

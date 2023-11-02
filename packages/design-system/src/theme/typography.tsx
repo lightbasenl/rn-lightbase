@@ -1,5 +1,6 @@
 import { precomputeValues } from "@capsizecss/core";
 import { PixelRatio, TextStyle } from "react-native";
+
 import { FontMetric, FontWeights } from "../types";
 
 const capsize = (options: Parameters<typeof precomputeValues>[0]) => {
@@ -20,16 +21,17 @@ const capsize = (options: Parameters<typeof precomputeValues>[0]) => {
 type CreateTextSizeProps = {
   fontMetrics: FontMetric | null;
   fontSize: number;
-  lineHeight: number | undefined;
+  lineHeight: number;
 };
 export const createTextSize = ({ fontMetrics, fontSize, lineHeight: leading }: CreateTextSizeProps) => {
   if (!fontMetrics) {
-    return { fontSize, lineHeight: leading };
+    return { fontSize, lineHeight: leading, marginTop: 0, marginBottom: 0 };
   }
   const sizes = capsize({ fontMetrics, fontSize, leading });
 
   return {
-    ...sizes,
+    fontSize: PixelRatio.roundToNearestPixel(sizes.fontSize),
+    lineHeight: PixelRatio.roundToNearestPixel(sizes.lineHeight ?? sizes.fontSize),
     marginTop: PixelRatio.roundToNearestPixel(sizes.marginTop),
     marginBottom: PixelRatio.roundToNearestPixel(sizes.marginBottom),
   } as const;
