@@ -1,9 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
-import {
-  KeyboardAwareScrollViewBox,
-  KeyboardAwareScrollViewBoxProps,
-} from "primitives/Box/KeyboardAwareScrollViewBox";
 import React, { ForwardedRef, forwardRef, ReactNode, RefObject, ReactElement, useLayoutEffect } from "react";
 import { FlatList, ScrollView, SectionList, StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
@@ -15,6 +11,10 @@ import { AnimatedFlatListBox, AnimatedFlatListBoxProps } from "../primitives/Box
 import { AnimatedScrollViewBox, AnimatedScrollViewBoxProps } from "../primitives/Box/AnimatedScrollViewBox";
 import { Box, BoxProps } from "../primitives/Box/Box";
 import { FlatListBox, FlatListBoxProps } from "../primitives/Box/FlatListBox";
+import {
+  KeyboardAwareScrollViewBox,
+  KeyboardAwareScrollViewBoxProps,
+} from "../primitives/Box/KeyboardAwareScrollViewBox";
 import { SafeAreaBox } from "../primitives/Box/SafeAreaBox";
 import { ScrollViewBox, ScrollViewBoxProps } from "../primitives/Box/ScrollViewBox";
 import { SectionListBox, SectionListBoxProps } from "../primitives/Box/SectionListBox";
