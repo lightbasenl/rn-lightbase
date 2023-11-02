@@ -3,6 +3,7 @@ export * from "./primitives/Row";
 export * from "./primitives/Stack";
 export * from "./primitives/Box/AnimatedBox";
 export * from "./primitives/Box/AnimatedFlatListBox";
+export * from "./primitives/Box/KeyboardAwareScrollViewBox";
 export * from "./primitives/Box/AnimatedScrollViewBox";
 export * from "./primitives/Box/Box";
 export * from "./primitives/Box/FlatListBox";
