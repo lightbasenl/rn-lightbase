@@ -1,5 +1,3 @@
-import { BackgroundContext } from "hooks/useBackgroundColor";
-import { useResolveBoxListTokens } from "hooks/useResolveBoxListTokens";
 import React, { Component, RefObject, useContext } from "react";
 import { Platform, useWindowDimensions } from "react-native";
 import { useKeyboardHandler, useResizeMode } from "react-native-keyboard-controller";
@@ -19,6 +17,8 @@ import Reanimated, {
 } from "react-native-reanimated";
 
 import { ScrollViewBoxProps } from "./ScrollViewBox";
+import { BackgroundContext } from "../../hooks/useBackgroundColor";
+import { useResolveBoxListTokens } from "../../hooks/useResolveBoxListTokens";
 
 export type KeyboardAwareScrollViewBoxProps = ScrollViewBoxProps & { bottomOffset?: number };
 export function KeyboardAwareScrollViewBox({
