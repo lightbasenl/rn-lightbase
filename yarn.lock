@@ -2126,7 +2126,7 @@
     opentype.js "^1.3.4"
 
 "@lightbase/rn-design-system@*", "@lightbase/rn-design-system@file:/Users/oliverwinter/code/rn-lightbase/packages/design-system":
-  version "0.15.0"
+  version "0.16.0"
   resolved "file:packages/design-system"
   dependencies:
     "@capsizecss/core" "^3.1.0"
