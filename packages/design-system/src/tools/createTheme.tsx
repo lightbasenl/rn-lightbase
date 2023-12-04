@@ -1,3 +1,5 @@
+import { PixelRatio } from "react-native";
+
 import { createTextSize } from "../theme/typography";
 import type {
   ButtonVariant,
@@ -22,7 +24,7 @@ export function createtheme<
 ): CreateLBConfig<K, T, S, Spacing, Radius, TTextVariant, TButtonVariant> {
   const themeColors = {
     light: config.colors.light,
-    dark: { ...config.colors.light, ...config.colors.dark },
+    dark: { ...config.colors.light, ...config.colors.dark } as T,
   };
 
   config.colors = themeColors;
@@ -32,9 +34,14 @@ export function createtheme<
       const [key, value] = cur;
       const { fontSize, lineHeight, marginBottom, marginTop } = createTextSize({
         fontMetrics: fontValue,
-        ...value,
+        fontSize: PixelRatio.roundToNearestPixel(value.fontSize / PixelRatio.getFontScale()),
+        lineHeight: PixelRatio.roundToNearestPixel(value.lineHeight / PixelRatio.getFontScale()),
       });
-      prev[key] = { fontSize, lineHeight, [fontKey]: { marginTop, marginBottom } };
+      prev[key] = {
+        fontSize,
+        lineHeight,
+        [fontKey]: { marginTop, marginBottom },
+      };
     });
     return prev;
   }, {} as any);
