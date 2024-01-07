@@ -3,7 +3,7 @@ import { NativeStackNavigationOptions } from "@react-navigation/native-stack";
 import React, { ForwardedRef, forwardRef, ReactNode, RefObject, ReactElement, useLayoutEffect } from "react";
 import { FlatList, ScrollView, SectionList, StyleSheet, View } from "react-native";
 import Animated from "react-native-reanimated";
-import { Edge, SafeAreaViewProps } from "react-native-safe-area-context";
+import { Edge, SafeAreaViewProps, useSafeAreaInsets } from "react-native-safe-area-context";
 
 import { useGetBottomTabBarHeight, useGetHeaderHeight } from "../hooks/useGetNavigationHeights";
 import { useInternalTheme } from "../hooks/useInternalTheme";
@@ -45,6 +45,8 @@ interface ScreenComponentType {
 export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S>, ref: ForwardedRef<any>) {
   const { defaults } = useInternalTheme();
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
+
   const combinedProps = { ...defaults.Screen, ...p, options: { ...defaults.Screen.options, ...p.options } };
   const { options, mode, edges, backgroundComponent, backgroundColor, absolutePositionedTabBar, ...props } =
     combinedProps;
@@ -59,23 +61,31 @@ export const Screen = forwardRef(function Screen<T, S = any>(p: ScreenProps<T, S
   let bottomTabHeight = useGetBottomTabBarHeight();
 
   const customEdges = ["left", "right"] as Edge[];
+  const containerprops = { backgroundColor, backgroundComponent } as BoxProps & {
+    backgroundComponent?: ReactElement | null;
+  };
+
   if (headerHeight === 0) {
-    customEdges.push("top");
+    if (mode === "margin") {
+      containerprops.paddingTop = { custom: insets.top };
+    } else {
+      customEdges.push("top");
+    }
   }
 
   if (options?.headerTransparent !== true) {
     headerHeight = 0;
-  }
-  if (!absolutePositionedTabBar) {
-    bottomTabHeight = 0;
   }
 
   if (bottomTabHeight === 0 || absolutePositionedTabBar) {
     customEdges.push("bottom");
   }
 
+  if (!absolutePositionedTabBar) {
+    bottomTabHeight = 0;
+  }
+
   const edgeArray = edges ?? customEdges;
-  const containerprops = { backgroundColor, backgroundComponent };
 
   if (props.as === "ScrollView") {
     const { children, ...rest } = props;
