@@ -34,8 +34,8 @@ export function createtheme<
       const [key, value] = cur;
       const { fontSize, lineHeight, marginBottom, marginTop } = createTextSize({
         fontMetrics: fontValue,
-        fontSize: PixelRatio.roundToNearestPixel(value.fontSize / PixelRatio.getFontScale()),
-        lineHeight: PixelRatio.roundToNearestPixel(value.lineHeight / PixelRatio.getFontScale()),
+        fontSize: PixelRatio.roundToNearestPixel(value.fontSize * PixelRatio.getFontScale()),
+        lineHeight: PixelRatio.roundToNearestPixel(value.lineHeight * PixelRatio.getFontScale()),
       });
       prev[key] = {
         fontSize,
