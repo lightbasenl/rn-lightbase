@@ -13,7 +13,7 @@ export type TextProps = RNTextProps & {
   underline?: boolean;
   strikeThrough?: boolean;
   animated?: boolean;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   textTransform?: TextStyle["textTransform"];
   size?: FontSizes;
   flex?: TextStyle["flex"];
