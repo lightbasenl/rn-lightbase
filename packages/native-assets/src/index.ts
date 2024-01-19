@@ -23,8 +23,8 @@ type FontMetric = {
 };
 
 const addImport = (stringContents: string) => {
-  const importRegex = /^import [a-zA-Z.]+;/m;
-  const addedImport = "import com.facebook.react.views.text.ReactFontManager;";
+  const importRegex = /^import [a-zA-Z.]/m;
+  const addedImport = "import com.facebook.react.common.assets.ReactFontManager";
 
   const match = stringContents.match(importRegex);
   if (!match || match.index === undefined) {
@@ -42,11 +42,11 @@ const addImport = (stringContents: string) => {
 };
 
 const addToOnCreate = (stringContents: string, addedLines: string[]) => {
-  const onCreateRegex = /(void onCreate\(.*\)(.|\n)*super.onCreate\(.*\);\s*\n)/;
+  const onCreateRegex = /(fun onCreate\(.*\)(.|\n)*super.onCreate\(.*\)\s*\n)/;
 
   const match = stringContents.match(onCreateRegex);
   if (!match || match.index === undefined) {
-    throw new Error('Unable to match "void onCreate" in MainActivity');
+    throw new Error('Unable to match "fun onCreate" in MainActivity');
   }
 
   const fullMatch = match[1];
