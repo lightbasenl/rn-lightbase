@@ -80,7 +80,6 @@ export function Text({ variant, ...props }: TextProps) {
         fontSizes,
         style,
       ]}
-      allowFontScaling={false}
       {...rest}
     >
       {children}
